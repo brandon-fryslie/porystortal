@@ -1,0 +1,7 @@
+hooks
+merges
+node_modules
+platforms
+plugins
+
+*.sublime-workspace

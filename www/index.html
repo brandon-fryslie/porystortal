@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Todo</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <link href="css/ionic.css" rel="stylesheet">
+
+    <script src="js/lib/ionic.bundle.js"></script>
+
+    <!-- Needed for Cordova/PhoneGap (will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <script type="text/javascript">
+       _IS_RIPPLE_EMULATOR = window.tinyHippos != undefined;
+
+       function deviceready() {
+           // Make ripple think that a back button handler has already been attached
+           if(_IS_RIPPLE_EMULATOR) cordova.addDocumentEventHandler('backbutton');
+
+           document.addEventListener("backbutton", function(){
+               alert("Pressed back");
+           });
+
+       }
+       document.addEventListener("deviceready", deviceready, true);
+     </script>
+
+    <script src="js/app/app.js"></script>
+
+  </head>
+  <body ng-app="todo" ng-controller="TodoCtrl">
+    <ion-side-menus>
+
+      <!-- Center content -->
+      <ion-pane ion-side-menu-content>
+        <header class="bar bar-header bar-dark">
+          <h1 class="title">Todo</h1>
+        </header>
+        <ion-content has-header="true">
+          <ion-list>
+            <ion-item ng-repeat="task in tasks">
+              {{task.title}}
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ion-pane>
+
+      <!-- Left menu -->
+      <ion-side-menu side="left">
+        <header class="bar bar-header bar-dark">
+          <h1 class="title">Projects</h1>
+        </header>
+        <!-- our list and list items -->
+      </ion-side-menu>
+
+    </ion-side-menus>
+  </body>
+</html>

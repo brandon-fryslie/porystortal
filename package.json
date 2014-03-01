@@ -1,0 +1,14 @@
+{
+  "name": "StoryPortal",
+  "preferGlobal": false,
+  "version": "0.0.1",
+  "author": "Brandon Fryslie",
+  "description": "Story Portal App",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-contrib-clean": "~0.5.0"
+  }
+}
