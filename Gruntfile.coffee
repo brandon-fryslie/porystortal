@@ -7,18 +7,31 @@ module.exports = (grunt) ->
   grunt.initConfig
     clean:
       coffee:
-        src: ['js/app']
+        src: ['app.js', 'www/js/app/*.js{,.map}']
     coffee:
       app:
         expand: true
-        cwd: 'js/app'
+        cwd: 'www/js'
         src: ['**/*.coffee']
+        dest: 'www/js/'
         ext: '.js'
-     options:
-       sourceMap: true
+      options:
+        sourceMap: true
     watch:
       coffee:
-        files: 'app/**/*.coffee'
-        tasks: 'coffee'
+        files: '**/*.coffee'
+        tasks: ['coffee']
 
   grunt.registerTask 'dev', [ 'watch' ]
+
+  # Only recompile changed coffee files
+  changedFiles = Object.create null
+
+  onChange = grunt.util._.debounce ->
+    grunt.config 'coffee.all.src', grunt.util._.map(Object.keys(changedFiles), (filepath) -> filepath.replace('rui/test/coffeescripts/', ''))
+    changedFiles = Object.create null
+  , 200
+
+  grunt.event.on 'watch', (action, filepath) ->
+    changedFiles[filepath] = action
+    onChange()

@@ -1,0 +1,22 @@
+{
+  "name": "StoryPortal",
+  "version": "0.0.0",
+  "authors": [
+    "Brandon Fryslie <bfryslie@rallydev.com>"
+  ],
+  "description": "StoryPortal",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/js/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "underscore": "~1.6.0",
+    "ionic": "~0.9.26"
+  }
+}

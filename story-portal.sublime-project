@@ -13,8 +13,17 @@
       ],
       "file_exclude_patterns": [
         "*.min.js",
-        "*.bundle.js"
+        // "*.bundle.js",
+        "*.js.map",
       ]
 		}
-	]
+	],
+  "build_systems":
+  [
+      {
+          "name": "Cordova",
+          "shell_cmd": "cordova prepare",
+          "working_dir": "$project_path"
+      }
+  ]
 }

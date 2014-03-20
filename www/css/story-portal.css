@@ -1,0 +1,96 @@
+/*
+    Text Page
+ */
+
+.page {
+  position: absolute;
+  background-image: url('../assets/img/background.png');
+}
+
+.overlay {
+  opacity: 0.9;
+  background-color: #E6C7A2;
+  margin: 20px;
+  padding: 0 20px;
+}
+
+img.banner {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  padding-top: 10px;
+}
+
+.scroll {
+  height: 100%;
+}
+
+.text-content {
+  top: 60px;
+  bottom: 70px;
+}
+
+.project-page .btn, .help-page .btn {
+  position: absolute;
+  bottom: 0;
+  width: 114px;
+  left: 50%;
+  margin-left: -57px;
+  padding-bottom: 6px;
+}
+
+/*
+    Story Wheel
+ */
+
+@font-face {
+  font-family: leander;
+  src: url(../fonts/Leander.ttf);
+}
+
+img.wheel {
+  position: absolute;
+  top: 30px;
+  width: 92%;
+  margin-left: 4%;
+  z-index: 2;
+}
+
+img.clicker {
+  position: absolute;
+  top: 35%;
+  left: 15%;
+  z-index: 1;
+  width: 14%;
+}
+
+.story-name {
+  padding: 2px 5px;
+  background-color: #1A0302;
+  border: 1px white solid;
+}
+
+.story-wheel {
+  top: 18%;
+  left: -1%;
+  height: 41%;
+  width: 56%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-weight: bold;
+
+  font-size: 20px;
+  color: #D7BDA4;
+  font-family: leander;
+}
+
+.main-page .btn {
+  position: absolute;
+  bottom: 0;
+  width: 114px;
+  left: 50%;
+  margin-left: -57px;
+  padding-bottom: 15px;
+}

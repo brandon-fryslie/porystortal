@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "virtual-scroll.js",
+  "sourceRoot": "",
+  "sources": [
+    "virtual-scroll.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAqC;CAAA;CAAA"
+}
