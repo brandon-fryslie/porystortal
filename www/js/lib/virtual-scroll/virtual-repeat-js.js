@@ -234,6 +234,7 @@
         }
 
         function addElements (start, end, colExpr, containerScope, insPoint) {
+          debugger
           var frag = document.createDocumentFragment();
           var newElements = [], element, idx, childScope;
           for( idx = start; idx !== end; idx ++ ){
@@ -276,6 +277,7 @@
         }
 
         function sfVirtualRepeatWatchExpression(scope){
+          // console.log('watch expr', scope)
           var coll = scope.$eval(ident.collection);
           if( coll.length !== state.total ){
             state.total = coll.length;

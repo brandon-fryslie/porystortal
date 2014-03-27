@@ -5,3 +5,4 @@ platforms
 plugins
 
 *.sublime-workspace
+*.js.map

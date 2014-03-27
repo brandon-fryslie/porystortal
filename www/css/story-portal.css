@@ -50,14 +50,16 @@ img.banner {
 }
 
 img.wheel {
+  pointer-events: none;
   position: absolute;
-  top: 30px;
+  top: 6%;
   width: 92%;
   margin-left: 4%;
   z-index: 2;
 }
 
 img.clicker {
+  pointer-events: none;
   position: absolute;
   top: 35%;
   left: 15%;

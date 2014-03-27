@@ -21,3 +21,7 @@ Wood paneling
 Icon
 Launch Screen
 Responsive / Media query stuff
+
+checkout Brunch
+
+It's hard to line up gear because top margin depends on screen height, gear height depends on screen width

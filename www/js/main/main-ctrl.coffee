@@ -1,21 +1,27 @@
-angular.module('StoryPortal').controller 'MainCtrl', ($scope, topicRepository) ->
+StoryPortal = angular.module('StoryPortal')
 
-  console.log 'MainCtrl!!'
+StoryPortal.controller 'MainCtrl', ($scope, $ionicGesture, topicRepository) ->
 
-  # make sure at least 30 items in list
-  $scope.topics = []
-  while $scope.topics.length < 30
-    $scope.topics = $scope.topics.concat topicRepository.getAllTopics()
-
+  $scope.topics = _(topicRepository.getAllTopics()).shuffle().take(30).value()
 
   $scope.pagingFn = ->
-    debugger
-
     console.log 'paging!'
 
-    $scope.topics = []
+    $scope.topics = _.shuffle topicRepository.getAllTopics()
+
+    debugger
+
     while $scope.topics.length < 30
-      $scope.topics = $scope.topics.concat topicRepository.getAllTopics()
+      $scope.topics = _.shuffle $scope.topics.concat topicRepository.getAllTopics()
 
     # $scope.topics = topicRepository.getAllTopics()
     $scope.$broadcast('scroll.infiniteScrollComplete');
+
+StoryPortal.directive 'storyList', ($ionicGesture) ->
+  restrict: 'C'
+  link: ($scope, $element, $attrs) ->
+
+    $ionicGesture.on 'drag', (e) ->
+      1
+      # Calculate CSS transforms
+    , $element

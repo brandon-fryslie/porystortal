@@ -1,8 +1,6 @@
 
 storyPortalModule = angular.module('StoryPortal', ['ionic', 'sf.virtualScroll']).config ($stateProvider, $urlRouterProvider) ->
 
-
-
   states = [
       name: 'tabs'
       url: "/tab",

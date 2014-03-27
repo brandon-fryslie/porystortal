@@ -2,12 +2,12 @@
   <ion-content class="page main-page" scroll="false" has-tabs="true">
     <img class="wheel" src="assets/img/wheel.png">
     <img class="clicker" src="assets/img/clicker.png">
-    <ion-content class="story-wheel">
-    <ul>
-      <li class="story-name" ng-repeat="topic in topics">
-        {{topic.name}}
-      </li>
-    </ul>
+    <ion-content class="story-wheel" scrollbarY="false">
+      <ul class="story-list">
+        <li class="story-name" sf-virtual-repeat="topic in topics">
+          {{topic.name}}
+        </li>
+      </ul>
     </ion-content>
     <a href="#"><img class="btn" src="assets/img/buttons/button_new_topics.png"></a>
   </ion-content>
