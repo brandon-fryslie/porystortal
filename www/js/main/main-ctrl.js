@@ -3,7 +3,7 @@
 
   StoryPortal = angular.module('StoryPortal');
 
-  StoryPortal.controller('MainCtrl', function($scope, $ionicGesture, topicRepository) {
+  StoryPortal.controller('MainCtrl', function($scope, $ionicGesture, $ionicScrollDelegate, topicRepository) {
     $scope.topics = _(topicRepository.getAllTopics()).shuffle().take(30).value();
     return $scope.pagingFn = function() {
       console.log('paging!');
@@ -19,11 +19,7 @@
   StoryPortal.directive('storyList', function($ionicGesture) {
     return {
       restrict: 'C',
-      link: function($scope, $element, $attrs) {
-        return $ionicGesture.on('drag', function(e) {
-          return 1;
-        }, $element);
-      }
+      link: function($scope, $element, $attrs) {}
     };
   });
 

@@ -21,6 +21,18 @@ img.banner {
   width: 80%;
   padding-top: 10px;
 }
+/*
+::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-content {
+  overflow: hidden;
+}*/
+
+.main-page .scroll {
+  overflow: initial !important;
+}
 
 .scroll {
   height: 100%;

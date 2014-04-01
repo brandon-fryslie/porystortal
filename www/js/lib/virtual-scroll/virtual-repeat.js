@@ -5,8 +5,6 @@
 
   DONT_WORK_AS_VIEWPORTS = DONT_WORK_AS_CONTENT = DONT_SET_DISPLAY_BLOCK = ['TABLE', 'TBODY', 'THEAD', 'TR', 'TFOOT'];
 
-  console.log('doing virtual repeat!');
-
   clip = function(value, min, max) {
     if (angular.isArray(value)) {
       angular.forEach(value(function(v) {
@@ -17,9 +15,8 @@
   };
 
   mod.directive('sfVirtualRepeat', [
-    '$log', '$rootElement', function($log, $rootElement) {
+    '$log', '$rootElement', '$ionicGesture', function($log, $rootElement, $ionicGesture) {
       var computeRowHeight, findViewportAndContent, isTagNameInList, parseRepeatExpression, setContentCss, setViewportCss, sfVirtualRepeatCompile;
-      console.log('linking!');
       parseRepeatExpression = function(expression) {
         var match;
         match = expression.match(/^\s*([\$\w]+)\s+in\s+([\S\s]*)$/);
@@ -80,14 +77,12 @@
         return viewport.css(viewportCss);
       };
       setContentCss = function(content) {
-        var contentCss;
-        contentCss = {
+        return content.css({
           margin: 0,
           padding: 0,
           border: 0,
           'box-sizing': 'border-box'
-        };
-        return content.css(contentCss);
+        });
       };
       computeRowHeight = function(element) {
         var height, maxHeight, style, _ref;
@@ -96,7 +91,8 @@
         height = style != null ? style.getPropertyValue('height') : void 0;
         height = (function() {
           if (height && height !== '0px' && height !== 'auto') {
-            return $log.debug('Row height is "%s" from css height', height);
+            $log.debug('Row height is "%s" from css height', height);
+            return height;
           } else if (maxHeight && maxHeight !== '0px' && maxHeight !== 'none') {
             $log.debug('Row height is "%s" from css max-height', height);
             return maxHeight;
@@ -112,7 +108,6 @@
       };
       sfVirtualRepeatCompile = function(element, attr, linker) {
         var ident, sfVirtualRepeatPostLink;
-        console.log('doing repeat compile', element);
         sfVirtualRepeatPostLink = function(scope, iterStartElement, attrs) {
           var addElements, destroyActiveElements, dom, makeNewScope, recomputeActive, rendered, rowHeight, setElementCss, sfVirtualRepeatListener, sfVirtualRepeatOnScroll, sfVirtualRepeatWatchExpression, state, sticky, _ref, _ref1;
           setElementCss = function(element) {
@@ -157,7 +152,6 @@
               idx++;
             }
             insPoint.after(frag);
-            debugger;
             return newElements;
           };
           recomputeActive = function() {
@@ -166,8 +160,7 @@
             end = clip(state.firstActive + state.active, state.firstVisible + state.visible + state.lowWater, state.firstVisible + state.visible + state.highWater);
             console.log('recompute active', start, end, state);
             state.firstActive = clip(start, 0, state.total - state.visible - state.lowWater);
-            state.active = Math.min(end, state.total) - state.firstActive;
-            debugger;
+            return state.active = Math.min(end, state.total) - state.firstActive;
           };
           sfVirtualRepeatOnScroll = function(e) {
             console.log('repeat on scroll', e);
@@ -187,13 +180,12 @@
           };
           sfVirtualRepeatWatchExpression = function(scope) {
             var coll;
-            console.log('watch expr', scope);
             coll = scope.$eval(ident.collection);
             if (coll.length !== state.total) {
               state.total = coll.length;
               recomputeActive();
             }
-            console.log('repeat watch expr', coll, state);
+            console.log('repeat watch expr', state);
             return {
               start: state.firstActive,
               active: state.active,
@@ -219,7 +211,8 @@
               newElements = addElements(newValue.start, oldEnd, ident.collection, scope, iterStartElement);
               rendered = newElements;
               if (rendered.length) {
-                return rowHeight = computeRowHeight(newElements[0][0]);
+                rowHeight = computeRowHeight(newElements[0][0]);
+                return console.log('rowheight is ', rowHeight);
               }
             } else {
               newEnd = newValue.start + newValue.active;
@@ -275,13 +268,12 @@
           state.visible = 0;
           state.active = 0;
           state.total = 0;
-          state.lowWater = (_ref = state.lowWater) != null ? _ref : 100;
-          state.highWater = (_ref1 = state.highWater) != null ? _ref1 : 300;
+          state.lowWater = (_ref = state.lowWater) != null ? _ref : 10;
+          state.highWater = (_ref1 = state.highWater) != null ? _ref1 : 30;
           setContentCss(dom.content);
           setViewportCss(dom.viewport);
-          dom.viewport.bind('scroll', sfVirtualRepeatOnScroll);
-          scope.$watch(sfVirtualRepeatWatchExpression, sfVirtualRepeatListener, true);
-          return console.log('did post link', state);
+          $ionicGesture.on('drag', sfVirtualRepeatOnScroll, qwery('ul.story-list'));
+          return scope.$watch(sfVirtualRepeatWatchExpression, sfVirtualRepeatListener, true);
         };
         ident = parseRepeatExpression(attr.sfVirtualRepeat);
         return {

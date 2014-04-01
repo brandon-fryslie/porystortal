@@ -1,8 +1,6 @@
 mod = angular.module 'sf.virtualScroll'
 DONT_WORK_AS_VIEWPORTS = DONT_WORK_AS_CONTENT = DONT_SET_DISPLAY_BLOCK = ['TABLE', 'TBODY', 'THEAD', 'TR', 'TFOOT']
 
-console.log 'doing virtual repeat!'
-
 clip = (value, min, max) ->
   if angular.isArray value
     angular.forEach value (v) ->
@@ -10,8 +8,7 @@ clip = (value, min, max) ->
 
   Math.max min, Math.min value, max
 
-mod.directive 'sfVirtualRepeat', [ '$log', '$rootElement', ($log, $rootElement) ->
-  console.log 'linking!'
+mod.directive 'sfVirtualRepeat', [ '$log', '$rootElement', '$ionicGesture', ($log, $rootElement, $ionicGesture) ->
 
   # Turn the expression supplied to the directive:
   #
@@ -86,13 +83,11 @@ mod.directive 'sfVirtualRepeat', [ '$log', '$rootElement', ($log, $rootElement) 
 
   # Apply explicit styles to the content element to prevent pesky padding
   # or borders messing with our calculations:
-  setContentCss = (content) ->
-    contentCss =
-      margin: 0
-      padding: 0
-      border: 0
-      'box-sizing': 'border-box'
-    content.css contentCss
+  setContentCss = (content) -> content.css
+    margin: 0
+    padding: 0
+    border: 0
+    'box-sizing': 'border-box'
 
   # TODO: compute outerHeight (padding + border unless box-sizing is border)
   computeRowHeight = (element) ->
@@ -102,6 +97,7 @@ mod.directive 'sfVirtualRepeat', [ '$log', '$rootElement', ($log, $rootElement) 
 
     height = if height and height isnt '0px' and height isnt 'auto'
         $log.debug('Row height is "%s" from css height', height);
+        height
       else if maxHeight and maxHeight isnt '0px' and maxHeight isnt 'none'
         $log.debug('Row height is "%s" from css max-height', height);
         maxHeight
@@ -119,7 +115,7 @@ mod.directive 'sfVirtualRepeat', [ '$log', '$rootElement', ($log, $rootElement) 
   # else we could do in the compile step as we need a viewport parent that
   # is exculsively ours - this is only available at link time.
   sfVirtualRepeatCompile = (element, attr, linker) ->
-    console.log 'doing repeat compile', element
+    # console.log 'doing repeat compile', element
 
     sfVirtualRepeatPostLink = (scope, iterStartElement, attrs) ->
 
@@ -163,9 +159,10 @@ mod.directive 'sfVirtualRepeat', [ '$log', '$rootElement', ($log, $rootElement) 
           frag.appendChild element[0]
           idx++
         insPoint.after frag
-        debugger
+        # debugger
         newElements
 
+      # update state variables
       recomputeActive = ->
         # We want to set the start to the low water mark unless the current start is already between the low and high water marks
         start = clip state.firstActive, state.firstVisible - state.lowWater, state.firstVisible - state.highWater
@@ -176,10 +173,12 @@ mod.directive 'sfVirtualRepeat', [ '$log', '$rootElement', ($log, $rootElement) 
         console.log 'recompute active', start, end, state
         state.firstActive = clip start, 0, state.total - state.visible - state.lowWater
         state.active = Math.min(end, state.total) - state.firstActive
-        debugger
 
+
+      # On Viewport Scroll
       sfVirtualRepeatOnScroll = (e) ->
         console.log 'repeat on scroll', e
+
         return unless rowHeight
 
         # Enter the angular world for the state change to take effect
@@ -193,13 +192,12 @@ mod.directive 'sfVirtualRepeat', [ '$log', '$rootElement', ($log, $rootElement) 
           $log.debug ' sticky = %o', sticky
 
       sfVirtualRepeatWatchExpression = (scope) ->
-        console.log 'watch expr', scope
         coll = scope.$eval ident.collection
         if coll.length isnt state.total
           state.total = coll.length
           recomputeActive()
 
-        console.log 'repeat watch expr', coll, state
+        console.log 'repeat watch expr', state
         start: state.firstActive
         active: state.active
         len: coll.length
@@ -216,13 +214,16 @@ mod.directive 'sfVirtualRepeat', [ '$log', '$rootElement', ($log, $rootElement) 
       sfVirtualRepeatListener = (newValue, oldValue, scope) ->
         console.log 'doing repeat listener'
         oldEnd = oldValue.start + oldValue.active
-        if  newValue is oldValue
+        if newValue is oldValue
           $log.debug 'initial listen'
           newElements = addElements newValue.start, oldEnd, ident.collection, scope, iterStartElement
           rendered = newElements
           if rendered.length
+            # debugger
             rowHeight = computeRowHeight newElements[0][0]
+            console.log 'rowheight is ', rowHeight
         else
+          # debugger
           newEnd = newValue.start + newValue.active
           forward = newValue.start >= oldValue.start
           delta = if forward
@@ -295,24 +296,23 @@ mod.directive 'sfVirtualRepeat', [ '$log', '$rootElement', ($log, $rootElement) 
       # Total elements
       state.total = 0
       # The point at which we add new elements
-      state.lowWater = state.lowWater ? 100
+      state.lowWater = state.lowWater ? 10
       # The point at which we remove old elements
-      state.highWater = state.highWater ? 300
+      state.highWater = state.highWater ? 30
       # (comment in original source) TODO: now watch the water marks
 
       setContentCss dom.content
       setViewportCss dom.viewport
 
       # When the user scrolls, we move the state.firstActive
-      dom.viewport.bind 'scroll', sfVirtualRepeatOnScroll
+
+      $ionicGesture.on 'drag', sfVirtualRepeatOnScroll, qwery('ul.story-list')
 
       # The watch on the collection is just a watch on the length of the collection
       # We don't care if the content changes
       scope.$watch sfVirtualRepeatWatchExpression, sfVirtualRepeatListener, true
 
       # debugger
-
-      console.log 'did post link', state
 
       # and that's the link done! all the action is in the handlers...
 

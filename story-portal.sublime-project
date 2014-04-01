@@ -9,10 +9,14 @@
         "merges",
         "node_modules",
         "platforms",
-        "plugins"
+        "plugins",
+        "lib/underscore",
+        "lib/ionic",
+        "lib/angular*"
       ],
       "file_exclude_patterns": [
         "*.min.js",
+        // "lib/*.js",
         // "*.bundle.js",
         "*.js.map",
       ]

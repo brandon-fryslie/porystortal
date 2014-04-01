@@ -1,6 +1,6 @@
 StoryPortal = angular.module('StoryPortal')
 
-StoryPortal.controller 'MainCtrl', ($scope, $ionicGesture, topicRepository) ->
+StoryPortal.controller 'MainCtrl', ($scope, $ionicGesture, $ionicScrollDelegate, topicRepository) ->
 
   $scope.topics = _(topicRepository.getAllTopics()).shuffle().take(30).value()
 
@@ -21,7 +21,10 @@ StoryPortal.directive 'storyList', ($ionicGesture) ->
   restrict: 'C'
   link: ($scope, $element, $attrs) ->
 
-    $ionicGesture.on 'drag', (e) ->
-      1
-      # Calculate CSS transforms
-    , $element
+    # debugger
+
+    # $ionicGesture.on 'drag', (e) ->
+    #   console.log 'asdfasdfasfd'
+    #   1
+    #   # Calculate CSS transforms
+    # , $element
