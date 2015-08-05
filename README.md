@@ -1,11 +1,11 @@
-Story Portal App
+Pory Stortal App
 =============
 
 Building / Running
 ------------------
 
-1.  `git clone https://github.com/brandon-fryslie/story-portal-app.git`
-2.  `cd story-portal-app`
+1.  `git clone https://github.com/brandon-fryslie/porystortal.git`
+2.  `cd porystortal`
 3.  `npm install -g ripple emulator` if ripple emulator is not already installed. may need sudo
 3.  `npm install`
 5.  `grunt coffee`
