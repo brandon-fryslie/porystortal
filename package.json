@@ -4,7 +4,11 @@
   "version": "0.0.1",
   "author": "Brandon Fryslie",
   "description": "Story Portal App",
-  "dependencies": {},
+  "dependencies": {
+    "mkdir": "0.0.2",
+    "grunt-mkdir": "~0.1.1",
+    "grunt-cordovacli": "~0.3.4"
+  },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-watch": "~0.4.4",
